@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Bayes Net (or Belief Networks) &#8212; AI4Fusion Summer School 2025</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "ai4fusion-wmschool/summer2025");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lecture15_BayesNets';</script>
+    <link rel="canonical" href="https://ai4fusion-wmschool.github.io/summer2025/Lecture15_BayesNets.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building MCMC from scratch" href="Lecture15_MCMC.html" />
+    <link rel="prev" title="Vision Transformers" href="Lecture14_ViT.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">This page is being updated</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logowm1.png" class="logo__image only-light" alt="AI4Fusion Summer School 2025 - Home"/>
+    <script>document.write(`<img src="_static/logowm1.png" class="logo__image only-dark" alt="AI4Fusion Summer School 2025 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    AI/ML for Fusion Summer School 2025
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Schedule (June 2-13, 2025)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="schedule.html">Schedule</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">[Pre-flight]</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1BV2-N-c1bq4yx1IsPMW4fhC9i1SCdRAU/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true"> Intro to Modeling, Linear Regression (lecture slides)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/GIT-course/intro_to_git.html">Brief course on <code class="docutils literal notranslate"><span class="pre">git</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/VCS.html">Version Control System (VCS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/git_basics.html">What is Git?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/git_configure.html">Configuring your <code class="docutils literal notranslate"><span class="pre">git</span></code></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/GIT-course/git_exercises.html">Exercises on <code class="docutils literal notranslate"><span class="pre">git</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-1.html">Exercise 1: Basic Git Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-2.html">Exercise 2: Commits, push and branches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-3.html">Advanced exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-4.html">GitHub Actions and Workflow Tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="Day-1/VS-code.html">Installing Visual Studio Code</a></li>
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/HPC-course/intro_to_HPC_HTC.html">Introduction to High Performance Computing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/intro_to_HPC.html">High Performance Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/ssh_login.html">SSH into a Front-End Node Using Proxy Jump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/file_systems_WM.html">William &amp; Mary Research Computing: File Systems Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/SLURM_commands2.html">Introduction to SLURM</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📚 Data Science Lectures and 💻 Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1mUp_c4gQOs9xYTIpSdNnMebEW9e_RWMGRDBCC6SA_a8/edit?usp=sharing">Lecture 1: Linear Models &amp; Basic Recap of Matrix Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture1_OLS.html">Lecture 1/Tutorial: Ordinary Least Squares</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/14eTEIWG-wLCI8igaVRNf1IIJUZsdvIBrUi8Jh1I12_0/edit?usp=sharing">Lecture 2: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture2_LinearClassifiers_Perceptron.html">Lecture 2/ Tutorial: Linear Classifiers Perceptron</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1wDHgkGcQc54H_o5GImys5pF0rXCS0iIW9kJGTfzbqX4/edit?usp=sharing">Lecture 3: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/16qUtHlHe_uCJ-tRSQfTiZu03VxSp3FseqTgqN5GnXGU/edit?usp=sharing">Lecture 4: Introduction to Deep Learning: Network Optimization</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1B4G6ebSl6oFp2knZiQVWNLsvbs_KpSf7BYQ44JWvRUQ/edit?usp=sharing">Lecture 5: Decision Trees and XGBoost</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture5_DecisionTrees.html">Lecture5/Tutorial: Decision Trees</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1kXCYu8L7BjzRWdyuKGlsRDXc5Ly7agpHyiJ1snHD8JU/edit?usp=sharing">Lecture 6: Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture6_PytorchBasics.html">Lecture6/Tutorial: Pytorch Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture6_Classification_Fusion.html">Lecture 6/Tutorial: Classification with Fusion Data</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1xHesrxVwV3VwZc7WZhJNW6J9SNkCoTDU4SGlnfWgchM/edit?usp=sharing">Lecture 7: Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture7_CNN.html">Lecture 7/Tutorial: Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1-MH3Wru3ZzbzOnUWD1y7EwX_4fiE1SvNqbMI5dw-Rac/edit?usp=sharing">Lecture 8: Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1THfbOkLw88J6ucunYT1V3pcLzASgHNUS7mKfnSb83ZA/edit?usp=sharing">Lecture 9: Generative AI (Part I)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1fxf5nkL48vdEo7ASda0ncUI_DvJLifiwbQ9bmJAcejQ/edit?usp=sharing">Lecture 10: Lecture 9: Generative AI (Part II)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/10r2tRU6zM3EZXitq-YDGQQWNutMe6zYrG96_mr5ySCQ/edit?usp=sharing">Lecture 11: Introduction to Transformers</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1CxHUE0T9pyGPpgtNw4PyjqgA5djE5E-P8YqjdeESVg8/edit?usp=sharing">Lecture 13: Introduction to Vision Transformers (Part I)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture14_ViT.html">Lecture 14/Tutorial: Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1QHop4BYDUo-Bg77-ULp-oNR45KOOr0h9iJxu-Emzi0k/edit?usp=sharing">Lecture 15: Introduction to Bayesian Statistics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 15/Tutorial: Bayes Nets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture15_MCMC.html">Lecture 15/Tutorial: Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1n4pg4p5HzoArBYS1NVp-OdW8w_tBQ9jBVkswFmiJb5E/edit?usp=sharing">Lecture 16: From Bayesian Regression to Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/19WbVhjYcYzQNTD8LpqPS2tbCQRMnTb2viOuTjP-_LeU/edit?usp=sharing">Lecture 17: Bayesian Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture17_BasicBNN.html">Lecture 17/Tutorial: Basic Bayesian Neural Network</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">👤💻🚀 Hands-On Sessions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="HandsOn1_Regression.html">Hands-on 1: Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn2_Regression_Fusion.html">Hands-on 2: Regression Fusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn3_GNN.html">Hands-on 3: Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn4_FlowMatching_NFlows.html">Hands-on 4: Flow Matching Normalizing Flows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📚 Fusion Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1ETaDjicSTQ5ol8Y5AJbYXYSh2kEUWSQs/view?usp=sharing">Introduction to Fusion (S. Mordijck)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1Yg2xxIlQ0RgMFqkIXQH6D3fsYfkh9q3s/view?usp=sharing">Tokamak Operations: Pegasus (S. Diem)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1l2qW-O2thEnWBWfZl6RqsOaoqWsqKY7X/view?usp=sharing">Alcator C-Mod: Database Intro (A.R. Saperstein)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1pYajMGvtGb0euxMR1cSFSkNKiryCxKhR/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true">Plasma Diagnostics (E. Kostadinova)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1uJN09wPunw8PPbxht1tGFEVbLsN2-hzt/view?usp=share_link">Disruption Physics (A.R. Saperstein)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1jfgCPC35si5A68GiYruaUH-x79MGDzi_/view?usp=sharing">Edge Localized Modes (S. Mordijck)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1FVaJQSatUiUB0yLORoAy-ltEBTzoAp8c/view?usp=sharing">Making Plasma Science Open (N. Murphy)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1rPSG_hxUkzVelfBrlUuDNHcytv2dqGWF/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true">Managing Data (N. Cummings)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1e498or94wDIBbIIauBboDv1WnHyAA6CbYDJlQCqVrbo/edit?usp=sharing">ML Uncertainty Quantification for the Experimental Fusion (C. Cowley)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="referencesmc.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ai4fusion-wmschool/summer2025/blob/webpage-src/material/Lecture15_BayesNets.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025/edit/webpage-src/material/Lecture15_BayesNets.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025/issues/new?title=Issue%20on%20page%20%2FLecture15_BayesNets.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lecture15_BayesNets.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Bayes Net (or Belief Networks)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-network-using-pymc">Bayes Network Using PyMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pgmpy-implementation">pgmpy Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-more-complex-network">A more “complex” Network</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="bayes-net-or-belief-networks">
+<h1>Bayes Net (or Belief Networks)<a class="headerlink" href="#bayes-net-or-belief-networks" title="Permalink to this heading">#</a></h1>
+<p>Bayesian networks use graphical structures to depict probabilistic relationships between a multitude of variables and facilitate probabilistic inference with these variables. The 1990s witnessed the development of outstanding algorithms for deriving Bayesian networks from observational data.</p>
+<ul class="simple">
+<li><p>We focus on intuitive strategies that emphasizes causal learning.</p></li>
+<li><p>We highlight the connections with the Bayesian approach through straightforward examples. This approach allows us to infer causal relationships from observational data.</p></li>
+</ul>
+<p>Let’s take this problem as our starting point or concrete example to introduce Bayesian Networks through a <strong>graph collider</strong>.</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img1.png"><img alt="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img1.png" src="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img1.png" style="width: 700px;" /></a>
+<p>Credits: <a class="reference external" href="https://discourse.pymc.io/t/bayes-nets-belief-networks-and-pymc/5150?page=2">https://discourse.pymc.io/t/bayes-nets-belief-networks-and-pymc/5150?page=2</a></p>
+<section id="bayes-network-using-pymc">
+<h2>Bayes Network Using PyMC<a class="headerlink" href="#bayes-network-using-pymc" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytensor.tensor</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytensor</span><span class="w"> </span><span class="kn">import</span> <span class="n">shared</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lookup_table</span> <span class="o">=</span> <span class="n">shared</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span>
+    <span class="p">[[</span><span class="mf">.99</span><span class="p">,</span> <span class="mf">.01</span><span class="p">],</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.9</span><span class="p">]],</span>
+    <span class="p">[[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.9</span><span class="p">]]]))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">smoker</span><span class="p">,</span> <span class="n">covid</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">lookup_table</span><span class="p">[</span><span class="n">smoker</span><span class="p">,</span> <span class="n">covid</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">m_bn</span><span class="p">:</span>
+    <span class="n">smoker</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="s1">&#39;smoker&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">.75</span><span class="p">,</span> <span class="mf">.25</span><span class="p">])</span>
+    <span class="n">covid</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="s1">&#39;covid&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">.9</span><span class="p">,</span> <span class="mf">.1</span><span class="p">])</span>
+    <span class="n">hospital</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="s1">&#39;hospital&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">smoker</span><span class="p">,</span> <span class="n">covid</span><span class="p">))</span>
+    <span class="n">prior_trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample_prior_predictive</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prior_covid</span> <span class="o">=</span> <span class="n">prior_trace</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;covid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">prior_smoker</span> <span class="o">=</span> <span class="n">prior_trace</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;smoker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">prior_hospital</span> <span class="o">=</span> <span class="n">prior_trace</span><span class="o">.</span><span class="n">prior</span><span class="p">[</span><span class="s1">&#39;hospital&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predict_proba0</span> <span class="o">=</span> <span class="n">prior_covid</span><span class="p">[(</span><span class="n">prior_smoker</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">prior_hospital</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">predict_proba1</span> <span class="o">=</span> <span class="n">prior_covid</span><span class="p">[(</span><span class="n">prior_smoker</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">prior_hospital</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;P(covid|¬smoking, hospital) is </span><span class="si">{</span><span class="n">predict_proba0</span><span class="si">:</span><span class="s1">1.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;P(covid|smoking, hospital) is </span><span class="si">{</span><span class="n">predict_proba1</span><span class="si">:</span><span class="s1">1.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P(covid|¬smoking, hospital) is 0.91
+P(covid|smoking, hospital) is 0.49
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pgmpy-implementation">
+<h2>pgmpy Implementation<a class="headerlink" href="#pgmpy-implementation" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">pgmpy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pgmpy in /usr/local/lib/python3.10/dist-packages (0.1.25)
+Requirement already satisfied: networkx in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.2.1)
+Requirement already satisfied: numpy in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.25.2)
+Requirement already satisfied: scipy in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.11.4)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.2.2)
+Requirement already satisfied: pandas in /usr/local/lib/python3.10/dist-packages (from pgmpy) (2.0.3)
+Requirement already satisfied: pyparsing in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.1.2)
+Requirement already satisfied: torch in /usr/local/lib/python3.10/dist-packages (from pgmpy) (2.2.1+cu121)
+Requirement already satisfied: statsmodels in /usr/local/lib/python3.10/dist-packages (from pgmpy) (0.14.1)
+Requirement already satisfied: tqdm in /usr/local/lib/python3.10/dist-packages (from pgmpy) (4.66.2)
+Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from pgmpy) (1.3.2)
+Requirement already satisfied: opt-einsum in /usr/local/lib/python3.10/dist-packages (from pgmpy) (3.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2023.4)
+Requirement already satisfied: tzdata&gt;=2022.1 in /usr/local/lib/python3.10/dist-packages (from pandas-&gt;pgmpy) (2024.1)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /usr/local/lib/python3.10/dist-packages (from scikit-learn-&gt;pgmpy) (3.4.0)
+Requirement already satisfied: patsy&gt;=0.5.4 in /usr/local/lib/python3.10/dist-packages (from statsmodels-&gt;pgmpy) (0.5.6)
+Requirement already satisfied: packaging&gt;=21.3 in /usr/local/lib/python3.10/dist-packages (from statsmodels-&gt;pgmpy) (24.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (3.13.3)
+Requirement already satisfied: typing-extensions&gt;=4.8.0 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (4.10.0)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (1.12)
+Requirement already satisfied: jinja2 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (3.1.3)
+Requirement already satisfied: fsspec in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (2023.6.0)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.1.105 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.105)
+Requirement already satisfied: nvidia-cuda-runtime-cu12==12.1.105 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.105)
+Requirement already satisfied: nvidia-cuda-cupti-cu12==12.1.105 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.105)
+Requirement already satisfied: nvidia-cudnn-cu12==8.9.2.26 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (8.9.2.26)
+Requirement already satisfied: nvidia-cublas-cu12==12.1.3.1 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.3.1)
+Requirement already satisfied: nvidia-cufft-cu12==11.0.2.54 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (11.0.2.54)
+Requirement already satisfied: nvidia-curand-cu12==10.3.2.106 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (10.3.2.106)
+Requirement already satisfied: nvidia-cusolver-cu12==11.4.5.107 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (11.4.5.107)
+Requirement already satisfied: nvidia-cusparse-cu12==12.1.0.106 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.0.106)
+Requirement already satisfied: nvidia-nccl-cu12==2.19.3 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (2.19.3)
+Requirement already satisfied: nvidia-nvtx-cu12==12.1.105 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (12.1.105)
+Requirement already satisfied: triton==2.2.0 in /usr/local/lib/python3.10/dist-packages (from torch-&gt;pgmpy) (2.2.0)
+Requirement already satisfied: nvidia-nvjitlink-cu12 in /usr/local/lib/python3.10/dist-packages (from nvidia-cusolver-cu12==11.4.5.107-&gt;torch-&gt;pgmpy) (12.4.127)
+Requirement already satisfied: six in /usr/local/lib/python3.10/dist-packages (from patsy&gt;=0.5.4-&gt;statsmodels-&gt;pgmpy) (1.16.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.10/dist-packages (from jinja2-&gt;torch-&gt;pgmpy) (2.1.5)
+Requirement already satisfied: mpmath&gt;=0.19 in /usr/local/lib/python3.10/dist-packages (from sympy-&gt;torch-&gt;pgmpy) (1.3.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesianNetwork</span>
+
+<span class="c1"># Define the structure of the Bayesian Network</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;Smoke&#39;</span><span class="p">,</span> <span class="s1">&#39;Hospital&#39;</span><span class="p">),</span>  <span class="c1"># Edge from Smoke to Hospital</span>
+    <span class="p">(</span><span class="s1">&#39;Covid&#39;</span><span class="p">,</span> <span class="s1">&#39;Hospital&#39;</span><span class="p">)</span>   <span class="c1"># Edge from Covid to Hospital</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Conditional Probability Distributions (CPDs)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.factors.discrete</span><span class="w"> </span><span class="kn">import</span> <span class="n">TabularCPD</span>
+
+<span class="c1"># CPD for Smoke</span>
+<span class="n">cpd_smoke</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Smoke&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.25</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Smoke&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">]})</span>
+
+<span class="c1"># CPD for Covid</span>
+<span class="n">cpd_covid</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Covid&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Covid&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">]})</span>
+
+<span class="c1"># CPD for Hospital</span>
+<span class="n">cpd_hospital</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;Hospital&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                          <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">],</span>  <span class="c1"># Probabilities for Hospital=yes</span>
+                                  <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]],</span> <span class="c1"># Probabilities for Hospital=no</span>
+                          <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Smoke&#39;</span><span class="p">,</span> <span class="s1">&#39;Covid&#39;</span><span class="p">],</span>
+                          <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                          <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Hospital&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">],</span> <span class="s1">&#39;Smoke&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">],</span> <span class="s1">&#39;Covid&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">]})</span>
+
+<span class="c1"># Add CPDs to the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_smoke</span><span class="p">,</span> <span class="n">cpd_covid</span><span class="p">,</span> <span class="n">cpd_hospital</span><span class="p">)</span>
+
+<span class="c1">#-----------------#</span>
+<span class="c1">#----- NOTES -----#</span>
+<span class="c1">#-----------------#</span>
+
+<span class="c1"># In the CPD for Hospital, the probabilities are ordered according to the Cartesian product of the evidence variables&#39; states,</span>
+<span class="c1"># i.e., [&#39;Smoke_yes&#39;, &#39;Covid_yes&#39;], [&#39;Smoke_yes&#39;, &#39;Covid_no&#39;], [&#39;Smoke_no&#39;, &#39;Covid_yes&#39;], and [&#39;Smoke_no&#39;, &#39;Covid_no&#39;].</span>
+
+<span class="c1"># state_names parameter in each CPD is optional but helps make the output more interpretable.</span>
+
+<span class="c1"># This example assumes binary states (yes/no) for simplicity, but pgmpy supports nodes with multiple states.</span>
+
+<span class="c1"># The term evidence_card refers to the cardinality of the evidence variables. It specifies the number of states (or distinct values) that each evidence variable can take.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableElimination</span>
+
+<span class="c1"># VariableElimination in pgmpy performs exact inference in Bayesian Networks</span>
+<span class="c1"># by systematically eliminating variables, computing marginal distributions</span>
+<span class="c1"># of interest or conditional distributions given evidence, optimizing</span>
+<span class="c1"># computational efficiency through the order of elimination.</span>
+
+<span class="n">inference</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># Probability of Hospitalization given Smoke=yes and Covid=yes</span>
+<span class="n">prob_hospital</span> <span class="o">=</span> <span class="n">inference</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hospital&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Smoke&#39;</span><span class="p">:</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Covid&#39;</span><span class="p">:</span> <span class="s1">&#39;yes&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob_hospital</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------+
+| Hospital      |   phi(Hospital) |
++===============+=================+
+| Hospital(yes) |          0.9000 |
++---------------+-----------------+
+| Hospital(no)  |          0.1000 |
++---------------+-----------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Probability of Covid given Smoke=yes and Hospital=yes</span>
+<span class="n">prob_covid</span> <span class="o">=</span> <span class="n">inference</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Covid&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Smoke&#39;</span><span class="p">:</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span> <span class="s1">&#39;Hospital&#39;</span><span class="p">:</span> <span class="s1">&#39;yes&#39;</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prob_covid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+------------+--------------+
+| Covid      |   phi(Covid) |
++============+==============+
+| Covid(yes) |       0.5000 |
++------------+--------------+
+| Covid(no)  |       0.5000 |
++------------+--------------+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-more-complex-network">
+<h2>A more “complex” Network<a class="headerlink" href="#a-more-complex-network" title="Permalink to this heading">#</a></h2>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img2.png"><img alt="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img2.png" src="https://raw.githubusercontent.com/cfteach/BRDS_DATA644/main/images/BN_img2.png" style="width: 700px;" /></a>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesianNetwork</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.factors.discrete</span><span class="w"> </span><span class="kn">import</span> <span class="n">TabularCPD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pgmpy.inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableElimination</span>
+
+<span class="c1"># Define the structure of the Bayesian Network</span>
+<span class="n">model_complex</span> <span class="o">=</span> <span class="n">BayesianNetwork</span><span class="p">([(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)])</span>
+
+<span class="c1"># Define the Conditional Probability Distributions (CPDs)</span>
+<span class="n">cpd_p</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">]})</span>
+<span class="n">cpd_s</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.7</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">]],</span> <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]})</span>
+<span class="n">cpd_c</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]],</span>
+                   <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">],</span>
+                   <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                   <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">],</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]})</span>
+<span class="n">cpd_x</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]],</span>
+                   <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                   <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                   <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;negative&#39;</span><span class="p">,</span> <span class="s1">&#39;positive&#39;</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]})</span>
+<span class="n">cpd_d</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">variable_card</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">0.65</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]],</span>
+                   <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                   <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                   <span class="n">state_names</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]})</span>
+
+<span class="c1"># Add the CPDs to the model</span>
+<span class="n">model_complex</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">cpd_p</span><span class="p">,</span> <span class="n">cpd_s</span><span class="p">,</span> <span class="n">cpd_c</span><span class="p">,</span> <span class="n">cpd_x</span><span class="p">,</span> <span class="n">cpd_d</span><span class="p">)</span>
+
+<span class="c1"># Validate the model</span>
+<span class="k">assert</span> <span class="n">model_complex</span><span class="o">.</span><span class="n">check_model</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the inference object</span>
+<span class="n">infer</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="n">model_complex</span><span class="p">)</span>
+
+<span class="c1"># Perform query</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">infer</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="n">evidence</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+----------+
+| P       |   phi(P) |
++=========+==========+
+| P(High) |   0.0991 |
++---------+----------+
+| P(Low)  |   0.9009 |
++---------+----------+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "ai4fusion-wmschool/summer2025",
+            ref: "webpage-src",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lecture14_ViT.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Vision Transformers</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Lecture15_MCMC.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Building MCMC from scratch</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-network-using-pymc">Bayes Network Using PyMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pgmpy-implementation">pgmpy Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-more-complex-network">A more “complex” Network</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Cristiano Fanelli
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  AI4Fusion
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

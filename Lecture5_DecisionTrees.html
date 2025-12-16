@@ -1,0 +1,1239 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Decision Trees &#8212; AI4Fusion Summer School 2025</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "ai4fusion-wmschool/summer2025");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lecture5_DecisionTrees';</script>
+    <link rel="canonical" href="https://ai4fusion-wmschool.github.io/summer2025/Lecture5_DecisionTrees.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PyTorch Pre-Flight" href="Lecture6_PytorchBasics.html" />
+    <link rel="prev" title="Implementation of a Perceptron in Python" href="Lecture2_LinearClassifiers_Perceptron.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">This page is being updated</div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logowm1.png" class="logo__image only-light" alt="AI4Fusion Summer School 2025 - Home"/>
+    <script>document.write(`<img src="_static/logowm1.png" class="logo__image only-dark" alt="AI4Fusion Summer School 2025 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    AI/ML for Fusion Summer School 2025
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Schedule (June 2-13, 2025)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="schedule.html">Schedule</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">[Pre-flight]</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1BV2-N-c1bq4yx1IsPMW4fhC9i1SCdRAU/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true"> Intro to Modeling, Linear Regression (lecture slides)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/GIT-course/intro_to_git.html">Brief course on <code class="docutils literal notranslate"><span class="pre">git</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/VCS.html">Version Control System (VCS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/git_basics.html">What is Git?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/git_configure.html">Configuring your <code class="docutils literal notranslate"><span class="pre">git</span></code></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/GIT-course/git_exercises.html">Exercises on <code class="docutils literal notranslate"><span class="pre">git</span></code></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-1.html">Exercise 1: Basic Git Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-2.html">Exercise 2: Commits, push and branches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-3.html">Advanced exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/GIT-course/Exercise-4.html">GitHub Actions and Workflow Tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="Day-1/VS-code.html">Installing Visual Studio Code</a></li>
+
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="Day-1/HPC-course/intro_to_HPC_HTC.html">Introduction to High Performance Computing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/intro_to_HPC.html">High Performance Computing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/ssh_login.html">SSH into a Front-End Node Using Proxy Jump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/file_systems_WM.html">William &amp; Mary Research Computing: File Systems Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Day-1/HPC-course/SLURM_commands2.html">Introduction to SLURM</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📚 Data Science Lectures and 💻 Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1mUp_c4gQOs9xYTIpSdNnMebEW9e_RWMGRDBCC6SA_a8/edit?usp=sharing">Lecture 1: Linear Models &amp; Basic Recap of Matrix Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture1_OLS.html">Lecture 1/Tutorial: Ordinary Least Squares</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/14eTEIWG-wLCI8igaVRNf1IIJUZsdvIBrUi8Jh1I12_0/edit?usp=sharing">Lecture 2: Linear Classifiers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture2_LinearClassifiers_Perceptron.html">Lecture 2/ Tutorial: Linear Classifiers Perceptron</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1wDHgkGcQc54H_o5GImys5pF0rXCS0iIW9kJGTfzbqX4/edit?usp=sharing">Lecture 3: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/16qUtHlHe_uCJ-tRSQfTiZu03VxSp3FseqTgqN5GnXGU/edit?usp=sharing">Lecture 4: Introduction to Deep Learning: Network Optimization</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1B4G6ebSl6oFp2knZiQVWNLsvbs_KpSf7BYQ44JWvRUQ/edit?usp=sharing">Lecture 5: Decision Trees and XGBoost</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture5/Tutorial: Decision Trees</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1kXCYu8L7BjzRWdyuKGlsRDXc5Ly7agpHyiJ1snHD8JU/edit?usp=sharing">Lecture 6: Pytorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture6_PytorchBasics.html">Lecture6/Tutorial: Pytorch Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture6_Classification_Fusion.html">Lecture 6/Tutorial: Classification with Fusion Data</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1xHesrxVwV3VwZc7WZhJNW6J9SNkCoTDU4SGlnfWgchM/edit?usp=sharing">Lecture 7: Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture7_CNN.html">Lecture 7/Tutorial: Convolutional Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1-MH3Wru3ZzbzOnUWD1y7EwX_4fiE1SvNqbMI5dw-Rac/edit?usp=sharing">Lecture 8: Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1THfbOkLw88J6ucunYT1V3pcLzASgHNUS7mKfnSb83ZA/edit?usp=sharing">Lecture 9: Generative AI (Part I)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1fxf5nkL48vdEo7ASda0ncUI_DvJLifiwbQ9bmJAcejQ/edit?usp=sharing">Lecture 10: Lecture 9: Generative AI (Part II)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/10r2tRU6zM3EZXitq-YDGQQWNutMe6zYrG96_mr5ySCQ/edit?usp=sharing">Lecture 11: Introduction to Transformers</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1CxHUE0T9pyGPpgtNw4PyjqgA5djE5E-P8YqjdeESVg8/edit?usp=sharing">Lecture 13: Introduction to Vision Transformers (Part I)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture14_ViT.html">Lecture 14/Tutorial: Vision Transformer</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1QHop4BYDUo-Bg77-ULp-oNR45KOOr0h9iJxu-Emzi0k/edit?usp=sharing">Lecture 15: Introduction to Bayesian Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture15_BayesNets.html">Lecture 15/Tutorial: Bayes Nets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture15_MCMC.html">Lecture 15/Tutorial: Markov Chain Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1n4pg4p5HzoArBYS1NVp-OdW8w_tBQ9jBVkswFmiJb5E/edit?usp=sharing">Lecture 16: From Bayesian Regression to Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/19WbVhjYcYzQNTD8LpqPS2tbCQRMnTb2viOuTjP-_LeU/edit?usp=sharing">Lecture 17: Bayesian Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lecture17_BasicBNN.html">Lecture 17/Tutorial: Basic Bayesian Neural Network</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">👤💻🚀 Hands-On Sessions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="HandsOn1_Regression.html">Hands-on 1: Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn2_Regression_Fusion.html">Hands-on 2: Regression Fusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn3_GNN.html">Hands-on 3: Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HandsOn4_FlowMatching_NFlows.html">Hands-on 4: Flow Matching Normalizing Flows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">📚 Fusion Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1ETaDjicSTQ5ol8Y5AJbYXYSh2kEUWSQs/view?usp=sharing">Introduction to Fusion (S. Mordijck)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1Yg2xxIlQ0RgMFqkIXQH6D3fsYfkh9q3s/view?usp=sharing">Tokamak Operations: Pegasus (S. Diem)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1l2qW-O2thEnWBWfZl6RqsOaoqWsqKY7X/view?usp=sharing">Alcator C-Mod: Database Intro (A.R. Saperstein)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1pYajMGvtGb0euxMR1cSFSkNKiryCxKhR/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true">Plasma Diagnostics (E. Kostadinova)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1uJN09wPunw8PPbxht1tGFEVbLsN2-hzt/view?usp=share_link">Disruption Physics (A.R. Saperstein)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1jfgCPC35si5A68GiYruaUH-x79MGDzi_/view?usp=sharing">Edge Localized Modes (S. Mordijck)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://drive.google.com/file/d/1FVaJQSatUiUB0yLORoAy-ltEBTzoAp8c/view?usp=sharing">Making Plasma Science Open (N. Murphy)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1rPSG_hxUkzVelfBrlUuDNHcytv2dqGWF/edit?usp=sharing&amp;ouid=113195593718692427789&amp;rtpof=true&amp;sd=true">Managing Data (N. Cummings)</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.google.com/presentation/d/1e498or94wDIBbIIauBboDv1WnHyAA6CbYDJlQCqVrbo/edit?usp=sharing">ML Uncertainty Quantification for the Experimental Fusion (C. Cowley)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="referencesmc.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/ai4fusion-wmschool/summer2025/blob/webpage-src/material/Lecture5_DecisionTrees.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025/edit/webpage-src/material/Lecture5_DecisionTrees.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ai4fusion-wmschool/summer2025/issues/new?title=Issue%20on%20page%20%2FLecture5_DecisionTrees.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lecture5_DecisionTrees.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Decision Trees</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1">Example 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-dataset">Another Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-elm-peak-filtering-credits-samuel-jackson-united-kingdom-atomic-energy-authority">Example 2 - ELM Peak Filtering (Credits: Samuel Jackson, United Kingdom Atomic Energy Authority)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-data">Import the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-features">Plot Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-data">Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-your-model">Select your model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation-with-stratifiedkfold-and-cross-val-score-in-scikit-learn">Cross-Validation with StratifiedKFold and cross_val_score in Scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-if-time-permits">Step 3 (if time permits)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="decision-trees">
+<h1>Decision Trees<a class="headerlink" href="#decision-trees" title="Permalink to this heading">#</a></h1>
+<p>In this notebook you will experiment with different tree based algorithms on some different datasets. You will need to:</p>
+<p>Create 3 models:</p>
+<ol class="arabic simple">
+<li><p>DecisionTreeClassifier()</p></li>
+<li><p>RandomForestClassifier()</p></li>
+<li><p>XGBClassifier()</p></li>
+</ol>
+<p>These will be inserted into the dictionaries below for comparison.</p>
+<p>You will also get a feeling for the different hyperparameters for each of these methods. Along with this, I want you to get used to reading the documentation of the different APIs. I will provide you with links.</p>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html</a></p>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html</a></p>
+<p><a class="reference external" href="https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.training">https://xgboost.readthedocs.io/en/latest/python/python_api.html#module-xgboost.training</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_classification</span><span class="p">,</span><span class="n">make_moons</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_circles</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBClassifier</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/sciclone/home/jgiroux/.conda/envs/ai4fusion_2025/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (&lt; 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc &gt;= 2.28) to use future versions of XGBoost.
+Note: You have installed the &#39;manylinux2014&#39; variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the &#39;manylinux_2_28&#39; variant.
+  warnings.warn(
+</pre></div>
+</div>
+</div>
+</div>
+<section id="example-1">
+<h2>Example 1<a class="headerlink" href="#example-1" title="Permalink to this heading">#</a></h2>
+<p>Instantiate your models using the default hyperparameters provided by the API.</p>
+<p>Train them for both of the datasets provided below and note any differences you see. Note that in these simple datasets we will not be truly able to appreciate the power of the more advanced XGBoost.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create synthetic 2D dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_circles</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="c1"># Train/test split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Classifiers</span>
+<span class="c1"># Insert the 3 differnt models here under their associated names</span>
+<span class="c1"># Hint: You will want to check what we have imported above and reference their class names in the above documentation</span>
+<span class="c1"># For all of the models set the random state = 42</span>
+<span class="c1"># In this first section you should expect</span>
+<span class="c1"># Decision Tree - two arguments, max_depth=5 and random_state=42</span>
+<span class="c1"># Random Forest - two arguments, n_estimators=100 and random_state=42</span>
+<span class="c1"># XGBoost - two arguments, eval_metric=&quot;logloss&quot; and random_state=42</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Decision Tree&quot;</span><span class="p">:</span>
+    <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span>
+    <span class="s2">&quot;XGBoost&quot;</span><span class="p">:</span>
+<span class="p">}</span>
+
+<span class="c1"># Train and evaluate</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">train_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,</span> <span class="n">train_time</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Train Accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Test  Accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Train Time    : </span><span class="si">{</span><span class="n">train_time</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot decision boundaries</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_decision_boundary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span>
+                         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="n">cmap_light</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#FFAAAA&#39;</span><span class="p">,</span> <span class="s1">&#39;#AAAAFF&#39;</span><span class="p">])</span>
+    <span class="n">cmap_bold</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#FF0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000FF&#39;</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_light</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_bold</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature 1&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Feature 2&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Visualize each model</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">Train Acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> | Test Acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="another-dataset">
+<h2>Another Dataset<a class="headerlink" href="#another-dataset" title="Permalink to this heading">#</a></h2>
+<p>Copy your models code from above here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create synthetic 2D dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+
+<span class="c1"># Train/test split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Classifiers - copy from above</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Decision Tree&quot;</span><span class="p">:</span>
+    <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span>
+    <span class="s2">&quot;XGBoost&quot;</span><span class="p">:</span>
+<span class="p">}</span>
+
+<span class="c1"># Train and evaluate</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">train_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,</span> <span class="n">train_time</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Train Accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Test  Accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → Train Time    : </span><span class="si">{</span><span class="n">train_time</span><span class="o">*</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot decision boundaries</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_decision_boundary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span>
+                         <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="n">cmap_light</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#FFAAAA&#39;</span><span class="p">,</span> <span class="s1">&#39;#AAAAFF&#39;</span><span class="p">])</span>
+    <span class="n">cmap_bold</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#FF0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000FF&#39;</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_light</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_bold</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature 1&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Feature 2&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Visualize each model</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">Train Acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> | Test Acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-2-elm-peak-filtering-credits-samuel-jackson-united-kingdom-atomic-energy-authority">
+<h2>Example 2 - ELM Peak Filtering (Credits: Samuel Jackson, United Kingdom Atomic Energy Authority)<a class="headerlink" href="#example-2-elm-peak-filtering-credits-samuel-jackson-united-kingdom-atomic-energy-authority" title="Permalink to this heading">#</a></h2>
+<p>Edge Localized Modes (ELMs) are a type of instability that occur in the edge region of a high-confinement (H-mode) plasma. They can often be characterized by Characterized  sharp peaks in the <span class="math notranslate nohighlight">\(D_\alpha\)</span> emission.</p>
+<p>Each sample in this dataset is a single peak found from the <span class="math notranslate nohighlight">\(D_\alpha\)</span> trace on the MAST tokamak (lines/dots in the plot below.). Each peak has been classified by a human as either “ELM” or “Not ELM”. Whether a peak is an ELM or not depends on the plasma temperature, pressure, density, current, NBI heating power, which are provided as input variables. <em>Note:</em> Not all ELMs will be so clearly discriminated by time as in the plot below.</p>
+<p><img alt="image" src="image-2.png" /></p>
+<p>The task in this example is to correctly predict whether or not each data point is an ELM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">cross_val_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="import-the-data">
+<h3>Import the Data<a class="headerlink" href="#import-the-data" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_elm_example</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mast_elms.csv&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">data_elm_example</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time</th>
+      <th>ip</th>
+      <th>power_nbi</th>
+      <th>density_gradient</th>
+      <th>t_e_core</th>
+      <th>n_e_core</th>
+      <th>dalpha</th>
+      <th>height</th>
+      <th>is_elm</th>
+      <th>shot_id</th>
+      <th>elm_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.12354</td>
+      <td>633946.455000</td>
+      <td>1.914531e+06</td>
+      <td>5.942272e+19</td>
+      <td>778.816287</td>
+      <td>2.568696e+19</td>
+      <td>0.263672</td>
+      <td>0.263672</td>
+      <td>False</td>
+      <td>30421</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.12624</td>
+      <td>643630.640000</td>
+      <td>1.793411e+06</td>
+      <td>7.199713e+19</td>
+      <td>806.330000</td>
+      <td>2.620493e+19</td>
+      <td>2.653809</td>
+      <td>2.653809</td>
+      <td>False</td>
+      <td>30421</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.13236</td>
+      <td>642951.590000</td>
+      <td>1.717778e+06</td>
+      <td>5.582337e+19</td>
+      <td>886.540783</td>
+      <td>2.549465e+19</td>
+      <td>0.217285</td>
+      <td>0.217285</td>
+      <td>False</td>
+      <td>30421</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.14354</td>
+      <td>633525.360000</td>
+      <td>3.435906e+06</td>
+      <td>1.006768e+20</td>
+      <td>989.853703</td>
+      <td>2.868911e+19</td>
+      <td>1.765137</td>
+      <td>1.765137</td>
+      <td>False</td>
+      <td>30421</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.14726</td>
+      <td>634690.050000</td>
+      <td>3.067380e+06</td>
+      <td>1.216553e+20</td>
+      <td>1024.795740</td>
+      <td>2.925721e+19</td>
+      <td>0.881348</td>
+      <td>0.881348</td>
+      <td>False</td>
+      <td>30421</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1603</th>
+      <td>0.40150</td>
+      <td>625823.000001</td>
+      <td>3.596614e+06</td>
+      <td>3.840381e+20</td>
+      <td>805.345591</td>
+      <td>3.378183e+19</td>
+      <td>2.971191</td>
+      <td>2.971191</td>
+      <td>True</td>
+      <td>28145</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>1604</th>
+      <td>0.40840</td>
+      <td>628614.774999</td>
+      <td>3.547623e+06</td>
+      <td>1.883917e+20</td>
+      <td>713.075546</td>
+      <td>3.447460e+19</td>
+      <td>1.252441</td>
+      <td>1.252441</td>
+      <td>True</td>
+      <td>28145</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>1605</th>
+      <td>0.41384</td>
+      <td>629134.347498</td>
+      <td>3.630177e+06</td>
+      <td>3.092133e+20</td>
+      <td>827.575734</td>
+      <td>3.284019e+19</td>
+      <td>1.430664</td>
+      <td>1.430664</td>
+      <td>True</td>
+      <td>28145</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>1606</th>
+      <td>0.42110</td>
+      <td>625634.337499</td>
+      <td>3.605183e+06</td>
+      <td>1.864259e+20</td>
+      <td>745.749204</td>
+      <td>3.224999e+19</td>
+      <td>1.694336</td>
+      <td>1.694336</td>
+      <td>True</td>
+      <td>28145</td>
+      <td>Mixed</td>
+    </tr>
+    <tr>
+      <th>1607</th>
+      <td>0.42912</td>
+      <td>624620.105000</td>
+      <td>3.564521e+06</td>
+      <td>1.408850e+20</td>
+      <td>590.673434</td>
+      <td>2.396484e+19</td>
+      <td>1.152344</td>
+      <td>1.152344</td>
+      <td>True</td>
+      <td>28145</td>
+      <td>Mixed</td>
+    </tr>
+  </tbody>
+</table>
+<p>1608 rows × 11 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="plot-features">
+<h3>Plot Features<a class="headerlink" href="#plot-features" title="Permalink to this heading">#</a></h3>
+<p>We can see that the distribution of classes is quite noisy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="s1">&#39;power_nbi&#39;</span><span class="p">,</span> <span class="s1">&#39;density_gradient&#39;</span><span class="p">,</span> <span class="s1">&#39;t_e_core&#39;</span><span class="p">,</span> <span class="s1">&#39;n_e_core&#39;</span><span class="p">,</span> <span class="s1">&#39;dalpha&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data_elm_example</span><span class="p">[</span><span class="n">feature_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;is_elm&#39;</span><span class="p">]],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;is_elm&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.axisgrid.PairGrid at 0x7f7c9a885310&gt;
+</pre></div>
+</div>
+<img alt="_images/7cd3dfc521453b375c2ecf892afdaf9a126b6ebdfa66bb03d8725aa75d3a9468.png" src="_images/7cd3dfc521453b375c2ecf892afdaf9a126b6ebdfa66bb03d8725aa75d3a9468.png" />
+</div>
+</div>
+</section>
+<section id="prepare-data">
+<h3>Prepare Data<a class="headerlink" href="#prepare-data" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">=</span> <span class="n">data_elm_example</span><span class="p">[</span><span class="s1">&#39;is_elm&#39;</span><span class="p">]</span>
+<span class="n">x</span><span class="o">=</span> <span class="n">data_elm_example</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;is_elm&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We apply a StandardScaler to normalize our features.</span>
+<span class="c1"># This transforms each feature to have zero mean and unit variance:</span>
+<span class="c1">#     x&#39; = (x - μ) / σ</span>
+<span class="c1"># where:</span>
+<span class="c1">#     μ = mean of the feature</span>
+<span class="c1">#     σ = standard deviation of the feature</span>
+
+<span class="n">scale</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">x</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="select-your-model">
+<h3>Select your model<a class="headerlink" href="#select-your-model" title="Permalink to this heading">#</a></h3>
+<p>Use one of your models from above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cross-validation-with-stratifiedkfold-and-cross-val-score-in-scikit-learn">
+<h3>Cross-Validation with StratifiedKFold and cross_val_score in Scikit-learn<a class="headerlink" href="#cross-validation-with-stratifiedkfold-and-cross-val-score-in-scikit-learn" title="Permalink to this heading">#</a></h3>
+<p>When evaluating machine learning models, it’s important to assess how well they generalize to unseen data. Cross-validation is a widely-used technique to do this, and Scikit-learn provides powerful tools to make it easy and reliable. When working with small datasets, cross-validation is particularly advisable because it maximizes the use of available data for both training and testing, helping to reduce variance in performance estimates and provide a more robust evaluation.</p>
+<p><strong>StratifiedKFold</strong> is a variation of KFold cross-validation that ensures each fold of the dataset maintains the same proportion of class labels as the original dataset. This is particularly useful for classification problems, especially when dealing with imbalanced classes.</p>
+<p><strong>Key Parameters:</strong></p>
+<ul class="simple">
+<li><p>n_splits: Number of folds (e.g., 5 means 80% train / 20% test each time)</p></li>
+<li><p>shuffle: Whether to shuffle the data before splitting</p></li>
+<li><p>random_state: Seed for reproducibility (only used if shuffle=True)</p></li>
+</ul>
+<p>In the example below, this creates 5 folds, each with roughly the same class distribution as the full dataset.</p>
+<p><strong>cross_val_score</strong> automates the process of splitting the dataset, training the model, and evaluating it on each fold. It works with any estimator that implements .fit() and .predict().</p>
+<p><strong>Key Parameters:</strong></p>
+<ul class="simple">
+<li><p>estimator: Your model (e.g., XGBoostClassifier())</p></li>
+<li><p>X: Features</p></li>
+<li><p>y: Labels</p></li>
+<li><p>cv: Cross-validation strategy (e.g., StratifiedKFold, integer for default KFold)</p></li>
+<li><p>scoring: Metric for evaluation (e.g., ‘accuracy’, ‘f1’, ‘roc_auc’, etc.)</p></li>
+</ul>
+<p>You may want to look into these different evaluation metrics and their meaning if you are not familiar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Parameters</span>
+<span class="n">scoring</span> <span class="o">=</span> <span class="s1">&#39;f1&#39;</span>
+<span class="n">n_splits</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># Stratified K-Fold setup</span>
+<span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="c1"># Perform cross-validation</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">feature_cols</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">skf</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">)</span>
+<span class="n">total_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># Display results</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total time: </span><span class="si">{</span><span class="n">total_time</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cross-Validation Results (</span><span class="si">{</span><span class="n">scoring</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> Score):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Fold </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Mean </span><span class="si">{</span><span class="n">scoring</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> Score: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-2">
+<h2>Step 2<a class="headerlink" href="#step-2" title="Permalink to this heading">#</a></h2>
+<p>Play with the hyperparameter settings of each model and get a feel for what they do. You should use the <strong>ELM dataset</strong> and the same cross validation scheme created above.
+You can also change the number of folds used, along with the metric used for evaluation.</p>
+<p>Things to look for:</p>
+<ol class="arabic simple">
+<li><p>Performance increases or decreases</p></li>
+<li><p>Increased runtime</p></li>
+<li><p>Overfitting</p></li>
+</ol>
+<p>You can copy the code cells from above.</p>
+</section>
+<section id="step-3-if-time-permits">
+<h2>Step 3 (if time permits)<a class="headerlink" href="#step-3-if-time-permits" title="Permalink to this heading">#</a></h2>
+<p>Produce some feature importance plots from XGBoost. You may find plots of this nature useful for your final project.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "ai4fusion-wmschool/summer2025",
+            ref: "webpage-src",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "ai4fusion_2025"
+        },
+        kernelOptions: {
+            name: "ai4fusion_2025",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ai4fusion_2025'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lecture2_LinearClassifiers_Perceptron.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Implementation of a Perceptron in Python</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Lecture6_PytorchBasics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">PyTorch Pre-Flight</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1">Example 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#another-dataset">Another Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-elm-peak-filtering-credits-samuel-jackson-united-kingdom-atomic-energy-authority">Example 2 - ELM Peak Filtering (Credits: Samuel Jackson, United Kingdom Atomic Energy Authority)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-the-data">Import the Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-features">Plot Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-data">Prepare Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-your-model">Select your model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation-with-stratifiedkfold-and-cross-val-score-in-scikit-learn">Cross-Validation with StratifiedKFold and cross_val_score in Scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-if-time-permits">Step 3 (if time permits)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Cristiano Fanelli
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  AI4Fusion
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
