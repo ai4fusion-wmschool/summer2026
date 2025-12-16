@@ -1,0 +1,70 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+root: intro
+format: jb-book
+
+parts:
+#- caption: Syllabus
+#  chapters:
+#    - url: https://drive.google.com/file/d/16QLlR1hVMFaLHwbiSZLhf_xUP_Lf4xgJ/view?usp=sharing
+#      title: Syllabus (last update 9/20/2024) 
+
+#- caption: Schedule
+#  chapters:
+#    - file: schedule
+#      title: "Schedule"
+    #- url: https://docs.google.com/presentation/d/1VZAreeSnm4UlclDWmTxmNFoyjgeNEyKqagiV0HgBrR4/edit#slide=id.g2ead0cea83b_0_95
+    #- url: https://docs.google.com/presentation/d/1nF3Y5hcuumYLgekjGXFy1ATGehg7gov_IXzJahMwOS0/edit?usp=sharing
+    #  title: "(Lec 1) Welcome and Intro by Prof. C.Fanelli"
+    #- url: https://docs.google.com/presentation/d/1tX2W2Da_BaM49ca3nh4lWQOfEdUpRFapFDqD3EWLNME/edit?usp=sharing
+    #  title: "Introduction to AID2E Boot Camp 2024"
+
+#- caption: Assignments
+#  chapters:
+#    - url: https://drive.google.com/file/d/1aW_ZdzN2D5W51rYIujfuqcMYzCYKRZzb/view?usp=sharing
+#      title: "Assignment 1, Deep Neural Networks from Scratch" 
+
+#- caption: Intro
+#  chapters:
+#    - url: https://docs.google.com/presentation/d/1nF3Y5hcuumYLgekjGXFy1ATGehg7gov_IXzJahMwOS0/edit?usp=sharing
+#      title: "Welcome and Intro by Prof. C.Fanelli"
+
+- caption: "[Pre-flight]"
+  numbered: true
+  chapters:
+    - url: https://docs.google.com/presentation/d/1BV2-N-c1bq4yx1IsPMW4fhC9i1SCdRAU/edit?usp=sharing&ouid=113195593718692427789&rtpof=true&sd=true
+      title: " Intro to Modeling, Linear Regression (lecture slides)"
+    - file: Linear_Regression_1_class.ipynb
+      title: "Linear Regression (Jupyter Notebook)"
+
+    - file: Day-1/GIT-course/intro_to_git
+      sections:
+        - file: Day-1/GIT-course/VCS.md
+        - file: Day-1/GIT-course/git_basics.md
+        - file: Day-1/GIT-course/git_configure.md
+    - file: Day-1/GIT-course/git_exercises
+      sections:
+        - file: Day-1/GIT-course/Exercise-1
+        - file: Day-1/GIT-course/Exercise-2
+        - file: Day-1/GIT-course/Exercise-3
+        - file: Day-1/GIT-course/Exercise-4
+
+    - file: Day-1/VS-code        
+
+    - file: Day-1/HPC-course/intro_to_HPC_HTC
+      sections:
+        - file: Day-1/HPC-course/intro_to_HPC.md
+        - file: Day-1/HPC-course/ssh_login
+        - file: Day-1/HPC-course/file_systems_WM
+        - file: Day-1/HPC-course/SLURM_commands2
+
+
+ 
+
+- caption: Additional resources
+  numbered: false
+  chapters:
+
+  - file: referencesmc.md
+    title: References
