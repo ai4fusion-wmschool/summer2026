@@ -1,24 +1,41 @@
-# AI/ML for Fusion Summer School 2025
+# AI/ML for Fusion Summer School 2026
 
 <center>
 
 <b> The </b> <b>[Open and Fair Fusion for Machine Learning Applications](https://crea-psfc.github.io/open-fair-fusion/)</b> <b>Project</b>
 
 
-(June 2-13, 2025)
+(June 1-12, 2026)
 
 </center>
 
-This is the landing page of the AI4Fusion Summer School held at William & Mary during Summer 2025
+This is the landing page of the AI4Fusion Summer School held at William & Mary during Summer 2026
 
 ```{figure} images/AIforFusion_logo.png
- 
+
 ```
 
+<div style="
+  border: 2px solid #f0ad4e;
+  background-color: #fff3cd;
+  padding: 1.2em;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1.5em 0;
+">
+
+🚀 **REGISTRATION IS NOW OPEN**  
+🗓️ **Through Jan&nbsp;31,&nbsp;2026**
+
+
+📝 **Please complete the registration form:**  
+👉 **https://forms.gle/8Nkzdw5tDJ8q3BsZA**
+
+</div>
 
 ```{important}
 
-Classes will be held in Miller Room no. 1008 at the Raymond A. Mason School of Business <br>
+Classes will be held in Miller Room no. 1008 [TBC] at the Raymond A. Mason School of Business <br>
 
 For any question, please contact: wmsummerschool@gmail.com
 ```
@@ -32,7 +49,7 @@ This course is based on the following references: {cite:p}`raschka2022machine,be
 ### 📚 Past Editions
 
 - [2024 Summer School](https://ai4fusion-wmschool.github.io/summer2024/intro.html)
-
+- [2025 Summer School](https://ai4fusion-wmschool.github.io/summer2025/intro.html)
 
 > ⚠️ **Note:** Course material will appear below.
 
@@ -43,4 +60,4 @@ This course is based on the following references: {cite:p}`raschka2022machine,be
 ```
 
 
-**Credits**: Material on git, VS-Code, and HPC from AID2E 
+**Credits**: Material on git, VS-Code, and HPC from AID2E
