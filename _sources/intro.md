@@ -11,7 +11,7 @@
 
 This is the landing page of the AI4Fusion Summer School held at William & Mary during Summer 2026
 
-```{figure} images/AIforFusion_logo.png
+```{figure} images/AIforFusion_logo2.png
 
 ```
 
@@ -24,18 +24,21 @@ This is the landing page of the AI4Fusion Summer School held at William & Mary d
   margin: 1.5em 0;
 ">
 
-🚀 **REGISTRATION IS NOW OPEN**  
-🗓️ **Through Jan&nbsp;31,&nbsp;2026**
+🚀 **REGISTRATION IS NOW CLOSED**  
+🗓️ **Jan&nbsp;31,&nbsp;2026**
 
-
-📝 **Please complete the registration form:**  
-👉 **https://forms.gle/8Nkzdw5tDJ8q3BsZA**
 
 </div>
 
 ```{important}
 
-Classes will be held in Miller Room no. 1008 [TBC] at the Raymond A. Mason School of Business <br>
+Classes will be held in rooms 3343 at the Integrated Science Center 4, William & Mary ([School of Computing, Data Sciences and Physics](https://cdsp.wm.edu/data-science/)).
+
+Room 3346 will be used as lounge for students.
+
+The conference room 3376 will be used by our speakers for their meetings.
+
+<br>
 
 For any question, please contact: wmsummerschool@gmail.com
 ```
